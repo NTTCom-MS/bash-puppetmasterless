@@ -29,23 +29,32 @@ puppet_check()
 
 while getopts 'd:hp' OPT; do
   case $OPT in
-    w)  int_warn=$OPTARG;;
-    c)  int_crit=$OPTARG;;
-    h)  hlp="yes";;
-    *)  hlp="yes";;
+    d)  DIR=$OPTARG;;
+    h)  JELP="yes";;
+    *)  JELP="yes";;
   esac
 done
 
+shift $(($OPTIND - 1))
+
 # usage
 HELP="
-    usage: $0 [ -w value -c value -p -h ]
+    usage: $0 -d <localpuppetmaster dir> <tar to install>
     syntax:
             -d --> puppetmaster directory
             -h --> print this help screen
 "
 
-if [ "$hlp" = "yes" ]; then
+if [ "$JELP" = "yes" ]; then
   echo "$HELP"
-  exit 0
+  exit 1
 fi
 
+puppet_check
+
+if [ ! -e $1 ];
+then
+  echo "file not found"
+  echo "$HELP"
+  exit 1
+fi
