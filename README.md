@@ -1,5 +1,7 @@
 # localpuppetmaster
 
+script to be to apply a catalog (format .pp) without any puppet master (installing modules locally)
+
 ## usage
 
 localpuppetmaster.sh -d \<localpuppetmaster dir\> \<tar to install\> \<site.pp\> [module to install]
