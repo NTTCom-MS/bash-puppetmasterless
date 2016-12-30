@@ -33,6 +33,8 @@ localpuppetmaster.sh -d <localpuppetmaster dir> <tar to install> <site.pp> [modu
   ```
 * **module to install**: optional, module to install instead of installing every single file in the tar file. If it is already installed, it will uninstall it first and reinstall it using the provided version (beaware of dependencies!)
 
+## example
+
 ```
 [jprats@croscat localpuppetmaster]$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster /home/jprats/upload/puppetmoduls.201612301524.tgz ~/bash.pp eyp-bash
 Notice: Preparing to uninstall 'eyp-bash' ...
