@@ -104,3 +104,5 @@ else
     exit 1
   fi
 fi
+
+puppet apply --modulepath=$DIR/modules $2 2>&1
