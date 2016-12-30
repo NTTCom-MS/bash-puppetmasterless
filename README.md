@@ -4,7 +4,7 @@ script to be to apply a catalog (format .pp) without any puppet master (installi
 
 ## usage
 
-localpuppetmaster.sh -d \<localpuppetmaster dir\> \<tar to install\> \<site.pp\> [module to install]
+localpuppetmaster.sh -d \<**localpuppetmaster dir**\> \<**tar to install**\> \<**site.pp**\> [**module to install**]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
 * **tar to install**: tar file containing all all the puppet packages:
