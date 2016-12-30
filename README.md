@@ -46,7 +46,7 @@ Notice: Installing -- do not interrupt ...
 └─┬ eyp-bash (v0.1.10)
   ├── puppetlabs-concat (v2.2.0)
   └── puppetlabs-stdlib (v4.14.0)
-Notice: Compiled catalog for croscat.atlasit.local in environment env in 1.27 seconds
+Notice: Compiled catalog for croscat.systemadmin.es in environment env in 1.27 seconds
 Notice: Finished catalog run in 0.55 seconds
 [jprats@croscat localpuppetmaster]$
 
