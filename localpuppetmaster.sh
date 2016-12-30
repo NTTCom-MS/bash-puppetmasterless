@@ -39,7 +39,7 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> <tar to install> <site.pp>
+    usage: $0 -d <localpuppetmaster dir> <tar to install> <site.pp> [module to install]
     syntax:
             -d --> puppetmaster directory
             -h --> print this help screen
@@ -91,4 +91,16 @@ then
   exit 1
 fi
 
-find $DIR/pkg -name \*tar\.gz -exec puppet module --modulepath=$DIR/modules install {} \;
+if [ -z "$3" ];
+then
+  find $DIR/pkg -name \*tar\.gz -exec puppet module --modulepath=$DIR/modules install {} \;
+else
+  if [ ! -z "$(find $DIR/pkg -name $3\*)" ];
+  then
+    puppet module --modulepath=$DIR/modules uninstall $3
+    find $DIR/pkg -name $3\* -exec puppet module --modulepath=$DIR/modules install {} \;
+  else
+    echo "module not found - aborting"
+    exit 1
+  fi
+fi
