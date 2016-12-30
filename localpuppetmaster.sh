@@ -39,7 +39,7 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> <tar to install>
+    usage: $0 -d <localpuppetmaster dir> <tar to install> <site.pp>
     syntax:
             -d --> puppetmaster directory
             -h --> print this help screen
@@ -50,11 +50,45 @@ if [ "$JELP" = "yes" ]; then
   exit 1
 fi
 
-puppet_check
-
-if [ ! -e $1 ];
+if [ -z "$1" ];
 then
-  echo "file not found"
+  echo "nothing to install"
   echo "$HELP"
   exit 1
 fi
+
+if [ -z "$DIR" ];
+then
+  echo "localpuppetmaster dir not defined"
+  echo "$HELP"
+  exit 1
+fi
+
+if [ ! -e $1 ];
+then
+  echo "tarball not found"
+  echo "$HELP"
+  exit 1
+fi
+
+if [ ! -e $2 ];
+then
+  echo "site.pp not found"
+  echo "$HELP"
+  exit 1
+fi
+
+puppet_check
+
+mkdir -p $DIR/pkg
+mkdir -p $DIR/modules
+
+tar xzf $1 -C $DIR/pkg
+
+if [ $? -ne 0 ];
+then
+  echo "error uncompressing modules"
+  exit 1
+fi
+
+find $DIR/pkg -name \*tar\.gz -exec puppet module --modulepath=$DIR/modules install {} \;
