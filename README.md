@@ -1,6 +1,6 @@
 # localpuppetmaster
 
-script to be to apply a catalog (format .pp) without any puppet master (installing modules locally)
+script to be to apply a manifest (.pp file) without any puppet master (by installing modules locally)
 
 ## usage
 
