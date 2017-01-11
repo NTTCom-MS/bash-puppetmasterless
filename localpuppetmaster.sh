@@ -16,14 +16,14 @@ tarball_install()
     exit 1
   fi
 
-  if [ -z "$3" ];
+  if [ -z "$2" ];
   then
     find $DIR/pkg -name \*tar\.gz -exec $PUPPETBIN module --modulepath=$DIR/modules install {} \;
   else
-    if [ ! -z "$(find $DIR/pkg -name $3\*)" ];
+    if [ ! -z "$(find $DIR/pkg -name $2\*)" ];
     then
-      $PUPPETBIN module --modulepath=$DIR/modules uninstall $3
-      find $DIR/pkg -name $3\* -exec $PUPPETBIN module --modulepath=$DIR/modules install {} \;
+      $PUPPETBIN module --modulepath=$DIR/modules uninstall $2
+      find $DIR/pkg -name $2\* -exec $PUPPETBIN module --modulepath=$DIR/modules install {} \;
     else
       echo "module not found - aborting"
       exit 1
@@ -76,6 +76,7 @@ puppet_version_check()
 while getopts 'd:hp' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
+    s)  SITEPP=$OPTARG;;
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
@@ -85,10 +86,11 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> [<tar to install>|<module to install from puppetforge>] <site.pp> [module to install]
+    usage: $0 -d <localpuppetmaster dir> [-s site.pp] [<tar to install> [module to install]|<module to install from puppetforge>]
     syntax:
-            -d --> puppetmaster directory
-            -h --> print this help screen
+            -d : puppetmaster directory
+            -s : site.pp to apply
+            -h : print this help screen
 "
 
 if [ "$JELP" = "yes" ]; then
@@ -125,13 +127,6 @@ else
   INSTALL_FROM_FORGE=0
 fi
 
-if [ ! -e $2 ];
-then
-  echo "site.pp not found"
-  echo "$HELP"
-  exit 1
-fi
-
 puppet_check
 
 puppet_version_check
@@ -146,4 +141,7 @@ else
   forge_install $@
 fi
 
-$PUPPETBIN apply --modulepath=$DIR/modules $2 2>&1
+if [ -z "$SITEPP" ];
+then
+  $PUPPETBIN apply --modulepath=$DIR/modules $SITEPP 2>&1
+fi
