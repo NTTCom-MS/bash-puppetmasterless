@@ -1,5 +1,36 @@
 #!/bin/bash
 
+forge_install()
+{
+  puppet module --modulepath=$DIR/modules uninstall $1
+  puppet module --modulepath=$DIR/modules install $1
+}
+
+tarball_install()
+{
+  tar xzf $1 -C $DIR/pkg
+
+  if [ $? -ne 0 ];
+  then
+    echo "error uncompressing modules"
+    exit 1
+  fi
+
+  if [ -z "$3" ];
+  then
+    find $DIR/pkg -name \*tar\.gz -exec puppet module --modulepath=$DIR/modules install {} \;
+  else
+    if [ ! -z "$(find $DIR/pkg -name $3\*)" ];
+    then
+      puppet module --modulepath=$DIR/modules uninstall $3
+      find $DIR/pkg -name $3\* -exec puppet module --modulepath=$DIR/modules install {} \;
+    else
+      echo "module not found - aborting"
+      exit 1
+    fi
+  fi
+}
+
 puppet_check()
 {
   PUPPET_FULL_VERSION=$(puppet --version 2>/dev/null)
@@ -26,7 +57,6 @@ puppet_check()
   fi
 }
 
-
 while getopts 'd:hp' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
@@ -39,7 +69,7 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> <tar to install> <site.pp> [module to install]
+    usage: $0 -d <localpuppetmaster dir> [<tar to install>|<module to install from puppetforge>] <site.pp> [module to install]
     syntax:
             -d --> puppetmaster directory
             -h --> print this help screen
@@ -66,9 +96,17 @@ fi
 
 if [ ! -e $1 ];
 then
-  echo "tarball not found"
-  echo "$HELP"
-  exit 1
+  echo $1 | grep -Eo '[a-zA-Z0-9]+-[a-zA-Z0-9]+'
+  if [ "$?" -eq 0 ];
+  then
+    INSTALL_FROM_FORGE=1
+  else
+    echo "neither a valid puppet module nor a tarball not found"
+    echo "$HELP"
+    exit 1
+  fi
+else
+  INSTALL_FROM_FORGE=0
 fi
 
 if [ ! -e $2 ];
@@ -83,26 +121,11 @@ puppet_check
 mkdir -p $DIR/pkg
 mkdir -p $DIR/modules
 
-tar xzf $1 -C $DIR/pkg
-
-if [ $? -ne 0 ];
+if [ "$INSTALL_FROM_FORGE" -eq 0 ];
 then
-  echo "error uncompressing modules"
-  exit 1
-fi
-
-if [ -z "$3" ];
-then
-  find $DIR/pkg -name \*tar\.gz -exec puppet module --modulepath=$DIR/modules install {} \;
+  tarball_install $@
 else
-  if [ ! -z "$(find $DIR/pkg -name $3\*)" ];
-  then
-    puppet module --modulepath=$DIR/modules uninstall $3
-    find $DIR/pkg -name $3\* -exec puppet module --modulepath=$DIR/modules install {} \;
-  else
-    echo "module not found - aborting"
-    exit 1
-  fi
+  forge_install $@
 fi
 
 puppet apply --modulepath=$DIR/modules $2 2>&1
