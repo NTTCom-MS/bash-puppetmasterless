@@ -4,10 +4,11 @@ script to be to apply a manifest (.pp file) without any puppet master (by instal
 
 ## usage
 
-localpuppetmaster.sh -d \<**localpuppetmaster dir**\> \<**tar to install**\> \<**site.pp**\> [**module to install**]
+localpuppetmaster.sh -d \<**localpuppetmaster dir**\> [\<**tar to install**\>|\<**module to install from puppetforge**\>] \<**site.pp**\> [**module to install**]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
-* **tar to install**: tar file containing all all the puppet packages:
+* module installation:
+  * **tar to install**: tar file containing all all the puppet packages:
 ```
 [jprats@croscat localpuppetmaster]$ tar tvf /home/jprats/upload/puppetmoduls.201612301524.tgz
 -rw-r--r-- root/root  21032377 2016-03-20 11:27 eyp-phantomjs-0.1.1.tar.gz
@@ -27,6 +28,7 @@ localpuppetmaster.sh -d \<**localpuppetmaster dir**\> \<**tar to install**\> \<*
 -rw-r--r-- root/root      2908 2016-03-20 11:29 eyp-locale-0.1.0.tar.gz
 (...)
 ```
+  * **module to install from puppetforge**: module to install from puppet forge, for example: **eyp-systemd**
 * **site.pp**: file to apply, for example:
 ```
 [jprats@croscat localpuppetmaster]$ cat ~/bash.pp
@@ -37,8 +39,10 @@ class { 'bash':
 
 ## example
 
+install from tarball:
+
 ```
-[jprats@croscat localpuppetmaster]$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster /home/jprats/upload/puppetmoduls.201612301524.tgz ~/bash.pp eyp-bash
+$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster /home/jprats/upload/puppetmoduls.201612301524.tgz ~/bash.pp eyp-bash
 Notice: Preparing to uninstall 'eyp-bash' ...
 Removed 'eyp-bash' (v0.1.10) from /tmp/localpuppetmaster/modules
 Notice: Preparing to install into /tmp/localpuppetmaster/modules ...
@@ -52,4 +56,23 @@ Notice: Compiled catalog for croscat.systemadmin.es in environment env in 1.27 s
 Notice: Finished catalog run in 0.55 seconds
 [jprats@croscat localpuppetmaster]$
 
+```
+
+install from puppet forge:
+
+```
+$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster/ eyp-systemd ~/bash.pp
+eyp-systemd
+Notice: Preparing to uninstall 'eyp-systemd' ...
+Error: Could not uninstall module 'eyp-systemd'
+  Module 'eyp-systemd' is not installed
+Notice: Preparing to install into /tmp/localpuppetmaster/modules ...
+Notice: Downloading from https://forgeapi.puppetlabs.com ...
+Notice: Installing -- do not interrupt ...
+/tmp/localpuppetmaster/modules
+└─┬ eyp-systemd (v0.1.16)
+  └── puppetlabs-stdlib (v4.14.0)
+Warning: Config file /home/jprats/.puppet/hiera.yaml not found, using Hiera defaults
+Notice: Compiled catalog for croscat.atlasit.local in environment production in 1.24 seconds
+Notice: Finished catalog run in 0.53 seconds
 ```
