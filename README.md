@@ -4,9 +4,15 @@ script to be to apply a manifest (.pp file) without any puppet master (by instal
 
 ## usage
 
-localpuppetmaster.sh -d \<**localpuppetmaster dir**\> [\<**tar to install**\>|\<**module to install from puppetforge**\>] \<**site.pp**\> [**module to install**]
+localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [\<tar to install\> [module to install]|\<module to install from puppetforge\>]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
+* **site.pp**: file to apply, for example:
+```
+[jprats@croscat localpuppetmaster]$ cat ~/bash.pp
+class { 'bash':
+}
+```
 * module installation:
   * **tar to install**: tar file containing all all the puppet packages:
 ```
@@ -29,12 +35,6 @@ localpuppetmaster.sh -d \<**localpuppetmaster dir**\> [\<**tar to install**\>|\<
 (...)
 ```
   * **module to install from puppetforge**: module to install from puppet forge, for example: **eyp-systemd**
-* **site.pp**: file to apply, for example:
-```
-[jprats@croscat localpuppetmaster]$ cat ~/bash.pp
-class { 'bash':
-}
-```
 * **module to install**: optional, module to install instead of installing every single file in the tar file. If it is already installed, it will uninstall it first and reinstall it using the provided version (beaware of dependencies!)
 
 ## example
@@ -42,7 +42,7 @@ class { 'bash':
 install from tarball:
 
 ```
-$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster /home/jprats/upload/puppetmoduls.201612301524.tgz ~/bash.pp eyp-bash
+$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster -s ~/bash.pp /home/jprats/upload/puppetmoduls.201612301524.tgz eyp-bash
 Notice: Preparing to uninstall 'eyp-bash' ...
 Removed 'eyp-bash' (v0.1.10) from /tmp/localpuppetmaster/modules
 Notice: Preparing to install into /tmp/localpuppetmaster/modules ...
@@ -61,7 +61,7 @@ Notice: Finished catalog run in 0.55 seconds
 install from puppet forge:
 
 ```
-$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster/ eyp-systemd ~/bash.pp
+$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster/ -s ~/bash.pp eyp-systemd 
 Notice: Preparing to uninstall 'eyp-systemd' ...
 Error: Could not uninstall module 'eyp-systemd'
   Module 'eyp-systemd' is not installed

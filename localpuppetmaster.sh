@@ -73,7 +73,7 @@ puppet_version_check()
   fi
 }
 
-while getopts 'd:hp' OPT; do
+while getopts 's:d:hp' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
