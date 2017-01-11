@@ -132,6 +132,8 @@ then
   exit 1
 fi
 
+puppet_check
+
 puppet_version_check
 
 mkdir -p $DIR/pkg
