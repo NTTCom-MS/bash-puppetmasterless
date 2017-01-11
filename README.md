@@ -62,7 +62,6 @@ install from puppet forge:
 
 ```
 $ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster/ eyp-systemd ~/bash.pp
-eyp-systemd
 Notice: Preparing to uninstall 'eyp-systemd' ...
 Error: Could not uninstall module 'eyp-systemd'
   Module 'eyp-systemd' is not installed
