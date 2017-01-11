@@ -141,7 +141,7 @@ else
   forge_install $@
 fi
 
-if [ -z "$SITEPP" ];
+if [ ! -z "$SITEPP" ];
 then
   $PUPPETBIN apply --modulepath=$DIR/modules $SITEPP 2>&1
 fi
