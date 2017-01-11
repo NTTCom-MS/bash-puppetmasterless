@@ -2,8 +2,8 @@
 
 forge_install()
 {
-  puppet module --modulepath=$DIR/modules uninstall $1
-  puppet module --modulepath=$DIR/modules install $1
+  $PUPPETBIN module --modulepath=$DIR/modules uninstall $1
+  $PUPPETBIN module --modulepath=$DIR/modules install $1
 }
 
 tarball_install()
@@ -18,12 +18,12 @@ tarball_install()
 
   if [ -z "$3" ];
   then
-    find $DIR/pkg -name \*tar\.gz -exec puppet module --modulepath=$DIR/modules install {} \;
+    find $DIR/pkg -name \*tar\.gz -exec $PUPPETBIN module --modulepath=$DIR/modules install {} \;
   else
     if [ ! -z "$(find $DIR/pkg -name $3\*)" ];
     then
-      puppet module --modulepath=$DIR/modules uninstall $3
-      find $DIR/pkg -name $3\* -exec puppet module --modulepath=$DIR/modules install {} \;
+      $PUPPETBIN module --modulepath=$DIR/modules uninstall $3
+      find $DIR/pkg -name $3\* -exec $PUPPETBIN module --modulepath=$DIR/modules install {} \;
     else
       echo "module not found - aborting"
       exit 1
@@ -33,14 +33,30 @@ tarball_install()
 
 puppet_check()
 {
-  PUPPET_FULL_VERSION=$(puppet --version 2>/dev/null)
+  PUPPETBIN=$(which puppet)
+
+  if [ -z "$PUPPETBIN" ];
+  then
+    if [ -e "/opt/puppetlabs/bin/puppet" ];
+    then
+      PUPPETBIN='/opt/puppetlabs/bin/puppet'
+    else
+      echo "puppet not found"
+      exit 1
+    fi
+  fi
+}
+
+puppet_version_check()
+{
+  PUPPET_FULL_VERSION=$($PUPPETBIN --version 2>/dev/null)
 
   if [ "$?" -ne 0 ];
   then
     echo "unexpected puppet error"
   fi
 
-  PUPPET_MAJOR_VERSION=$(puppet --version | grep -Eo "^[0-9]")
+  PUPPET_MAJOR_VERSION=$($PUPPETBIN --version | grep -Eo "^[0-9]")
 
   if [ "$PUPPET_MAJOR_VERSION" -lt "3" ];
   then
@@ -48,7 +64,7 @@ puppet_check()
     exit 1
   fi
 
-  PUPPET_MINOR_VERSION=$(puppet --version | grep -Eo "\.[0-9]*\." | cut -f2 -d.)
+  PUPPET_MINOR_VERSION=$($PUPPETBIN --version | grep -Eo "\.[0-9]*\." | cut -f2 -d.)
 
   if [ "$PUPPET_MINOR_VERSION" -lt "8" ];
   then
@@ -116,7 +132,7 @@ then
   exit 1
 fi
 
-puppet_check
+puppet_version_check
 
 mkdir -p $DIR/pkg
 mkdir -p $DIR/modules
@@ -128,4 +144,4 @@ else
   forge_install $@
 fi
 
-puppet apply --modulepath=$DIR/modules $2 2>&1
+$PUPPETBIN apply --modulepath=$DIR/modules $2 2>&1
