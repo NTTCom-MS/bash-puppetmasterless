@@ -73,10 +73,11 @@ puppet_version_check()
   fi
 }
 
-while getopts 's:d:hp' OPT; do
+while getopts 's:d:y:hp' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
+    y)  HIERAYAML=$OPTARG;;
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
@@ -86,10 +87,11 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> [-s site.pp] [<tar to install> [module to install]|<module to install from puppetforge>]
+    usage: $0 -d <localpuppetmaster dir> [-s site.pp] [-y hiera.yaml] [<tar to install> [module to install]|<module to install from puppetforge>]
     syntax:
             -d : puppetmaster directory
             -s : site.pp to apply
+            -y : hiera.yaml
             -h : print this help screen
 "
 
@@ -133,6 +135,16 @@ puppet_version_check
 
 mkdir -p $DIR/pkg
 mkdir -p $DIR/modules
+
+if [ ! -z "$HIERAYAML" ];
+then
+  if [ ! -e $HIERAYAML ];
+  then
+    echo "$HIERAYAML does not exists"
+    exit 1
+  fi
+  HIERA_PUPPET_OPT=" --hiera_config $HIERAYAML "
+fi
 
 if [ "$INSTALL_FROM_FORGE" -eq 0 ];
 then

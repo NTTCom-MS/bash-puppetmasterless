@@ -4,9 +4,10 @@ script to be to apply a manifest (.pp file) without any puppet master (by instal
 
 ## usage
 
-localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [\<tar to install\> [module to install]|\<module to install from puppetforge\>]
+localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install]|\<module to install from puppetforge\>]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
+* **hiera.yaml**: hiera.yaml to use (optional)
 * **site.pp**: file to apply, for example:
 ```
 [jprats@croscat localpuppetmaster]$ cat ~/bash.pp
@@ -61,7 +62,7 @@ Notice: Finished catalog run in 0.55 seconds
 install from puppet forge:
 
 ```
-$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster/ -s ~/bash.pp eyp-systemd 
+$ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster/ -s ~/bash.pp eyp-systemd
 Notice: Preparing to uninstall 'eyp-systemd' ...
 Error: Could not uninstall module 'eyp-systemd'
   Module 'eyp-systemd' is not installed
