@@ -4,7 +4,7 @@ script to be to apply a manifest (.pp file) without any puppet master (by instal
 
 ## usage
 
-localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install]|\<module to install from puppetforge\>]
+localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install] | \<module to install from puppetforge\>]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
 * **hiera.yaml**: hiera.yaml to use (optional)
