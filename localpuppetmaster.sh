@@ -102,9 +102,23 @@ fi
 
 if [ -z "$1" ];
 then
-  echo "nothing to install"
-  echo "$HELP"
-  exit 1
+  APPLY_ONLY=1
+else
+  APPLY_ONLY=0
+  if [ ! -e $1 ];
+  then
+    echo $1 | grep -Eo '[a-zA-Z0-9]+-[a-zA-Z0-9]+'
+    if [ "$?" -eq 0 ];
+    then
+      INSTALL_FROM_FORGE=1
+    else
+      echo "neither a valid puppet module nor a tarball not found"
+      echo "$HELP"
+      exit 1
+    fi
+  else
+    INSTALL_FROM_FORGE=0
+  fi
 fi
 
 if [ -z "$DIR" ];
@@ -112,21 +126,6 @@ then
   echo "localpuppetmaster dir not defined"
   echo "$HELP"
   exit 1
-fi
-
-if [ ! -e $1 ];
-then
-  echo $1 | grep -Eo '[a-zA-Z0-9]+-[a-zA-Z0-9]+'
-  if [ "$?" -eq 0 ];
-  then
-    INSTALL_FROM_FORGE=1
-  else
-    echo "neither a valid puppet module nor a tarball not found"
-    echo "$HELP"
-    exit 1
-  fi
-else
-  INSTALL_FROM_FORGE=0
 fi
 
 puppet_check
@@ -146,11 +145,14 @@ then
   HIERA_PUPPET_OPT=" --hiera_config $HIERAYAML "
 fi
 
-if [ "$INSTALL_FROM_FORGE" -eq 0 ];
+if [ "$APPLY_ONLY" -eq 0 ];
 then
-  tarball_install $@
-else
-  forge_install $@
+  if [ "$INSTALL_FROM_FORGE" -eq 0 ];
+  then
+    tarball_install $@
+  else
+    forge_install $@
+  fi
 fi
 
 if [ ! -z "$SITEPP" ];
