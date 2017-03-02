@@ -4,20 +4,20 @@ script to be to apply a manifest (.pp file) without any puppet master (by instal
 
 ## usage
 
-localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install]|\<module to install from puppetforge\>]
+localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install] | \<module to install from puppetforge\>]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
 * **hiera.yaml**: hiera.yaml to use (optional)
 * **site.pp**: file to apply, for example:
 ```
-[jprats@croscat localpuppetmaster]$ cat ~/bash.pp
+$ cat ~/bash.pp
 class { 'bash':
 }
 ```
 * module installation:
   * **tar to install**: tar file containing all all the puppet packages:
 ```
-[jprats@croscat localpuppetmaster]$ tar tvf /home/jprats/upload/puppetmoduls.201612301524.tgz
+$ tar tvf /home/jprats/upload/puppetmoduls.201612301524.tgz
 -rw-r--r-- root/root  21032377 2016-03-20 11:27 eyp-phantomjs-0.1.1.tar.gz
 -rw-r--r-- root/root     11043 2016-12-08 16:32 eyp-multipathd-0.1.5.tar.gz
 -rw-r--r-- root/root     51669 2016-11-25 18:47 eyp-apache-0.4.14.tar.gz
