@@ -38,9 +38,44 @@ class { 'bash':
   * **module to install from puppetforge**: module to install from puppet forge, for example: **eyp-systemd**
 * **module to install**: optional, module to install instead of installing every single file in the tar file. If it is already installed, it will uninstall it first and reinstall it using the provided version (beaware of dependencies!)
 
-## example
+## examples
 
-install from tarball:
+install module to a directory without applying any config:
+
+```
+$ bash localpuppetmaster.sh -d /tmp/caca eyp-systemd
+eyp-systemd
+Notice: Preparing to uninstall 'eyp-systemd' ...
+Error: Could not uninstall module 'eyp-systemd'
+  Module 'eyp-systemd' is not installed
+Notice: Preparing to install into /tmp/caca/modules ...
+Notice: Downloading from https://forgeapi.puppetlabs.com ...
+^CCancelling Face
+[jprats@croscat puppet-masterless]$ ^C
+[jprats@croscat puppet-masterless]$ bash localpuppetmaster.sh -d /tmp/example eyp-systemd
+eyp-systemd
+Notice: Preparing to uninstall 'eyp-systemd' ...
+Error: Could not uninstall module 'eyp-systemd'
+  Module 'eyp-systemd' is not installed
+Notice: Preparing to install into /tmp/example/modules ...
+Notice: Downloading from https://forgeapi.puppetlabs.com ...
+Notice: Installing -- do not interrupt ...
+/tmp/example/modules
+└─┬ eyp-systemd (v0.1.23)
+  ├── eyp-eyplib (v0.1.7)
+  └── puppetlabs-stdlib (v4.15.0)
+$ ls -la /tmp/example/modules/
+total 20
+drwxrwxr-x 5 jprats jprats 4096 Mar  2 13:30 .
+drwxrwxr-x 4 jprats jprats 4096 Mar  2 13:30 ..
+drwxr-xr-x 6 jprats jprats 4096 Jun 13  2016 eyplib
+drwxr-xr-x 7 jprats jprats 4096 Jan 20 14:14 stdlib
+drwxr-xr-x 7 jprats jprats 4096 Feb 25 19:59 systemd
+[jprats@croscat puppet-masterless]$ 
+
+```
+
+install from tarball ans apply a site.pp:
 
 ```
 $ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster -s ~/bash.pp /home/jprats/upload/puppetmoduls.201612301524.tgz eyp-bash
@@ -59,7 +94,7 @@ Notice: Finished catalog run in 0.55 seconds
 
 ```
 
-install from puppet forge:
+install from puppet forge and apply a site.pp:
 
 ```
 $ sudo bash localpuppetmaster.sh -d /tmp/localpuppetmaster/ -s ~/bash.pp eyp-systemd
