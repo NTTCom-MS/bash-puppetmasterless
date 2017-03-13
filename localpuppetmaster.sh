@@ -105,8 +105,10 @@ then
   APPLY_ONLY=1
 else
   APPLY_ONLY=0
-  if [ ! -e $1 ];
+  if [ -f $1 ];
   then
+    INSTALL_FROM_FORGE=0
+  else
     echo $1 | grep -Eo '[a-zA-Z0-9]+-[a-zA-Z0-9]+'
     if [ "$?" -eq 0 ];
     then
@@ -116,8 +118,6 @@ else
       echo "$HELP"
       exit 1
     fi
-  else
-    INSTALL_FROM_FORGE=0
   fi
 fi
 
