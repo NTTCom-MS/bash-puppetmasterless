@@ -83,6 +83,11 @@ while getopts 's:d:y:hp' OPT; do
   esac
 done
 
+if [ ! -z "$HIERAYAML" ];
+then
+	HIERAYAML_OPT="--hiera_config $HIERAYAML"
+fi
+
 shift $(($OPTIND - 1))
 
 # usage
@@ -157,5 +162,5 @@ fi
 
 if [ ! -z "$SITEPP" ];
 then
-  $PUPPETBIN apply --modulepath=$DIR/modules $SITEPP 2>&1
+  $PUPPETBIN apply --modulepath=$DIR/modules --pluginsync $SITEPP $HIERAYAML_OPT 2>&1
 fi
