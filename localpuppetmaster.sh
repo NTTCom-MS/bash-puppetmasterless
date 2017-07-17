@@ -153,7 +153,7 @@ fi
 
 if [ "$MODULELIST" == "1" ];
 then
-  $PUPPETBIN --modulepath=$DIR/modules module list
+  $PUPPETBIN module --modulepath=$DIR/modules list
   exit $?
 fi
 
