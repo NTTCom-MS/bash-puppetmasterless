@@ -4,7 +4,7 @@ script to be to apply a manifest (.pp file) without any puppet master (by instal
 
 ## usage
 
-localpuppetmaster.sh -d \<localpuppetmaster dir\> [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install] | \<module to install from puppetforge\>]
+localpuppetmaster.sh -d \<localpuppetmaster dir\> [-l] [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install] | \<module to install from puppetforge\>]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
 * **hiera.yaml**: hiera.yaml to use (optional)
@@ -71,7 +71,7 @@ drwxrwxr-x 4 jprats jprats 4096 Mar  2 13:30 ..
 drwxr-xr-x 6 jprats jprats 4096 Jun 13  2016 eyplib
 drwxr-xr-x 7 jprats jprats 4096 Jan 20 14:14 stdlib
 drwxr-xr-x 7 jprats jprats 4096 Feb 25 19:59 systemd
-[jprats@croscat puppet-masterless]$ 
+[jprats@croscat puppet-masterless]$
 
 ```
 
@@ -119,4 +119,11 @@ $ bash git/puppet-masterless/localpuppetmaster.sh -d /tmp/example/ -s bash.pp
 Warning: Config file /home/jprats/.puppet/hiera.yaml not found, using Hiera defaults
 Notice: Compiled catalog for croscat.atlasit.local in environment production in 1.23 seconds
 Notice: Finished catalog run in 0.53 seconds
+```
+
+list modules:
+
+```
+root@3adb84262e60:/usr/local/src/puppet-masterless# bash localpuppetmaster.sh -d /usr/local/puppetmasterless/ -l
+/usr/local/puppetmasterless/modules (no modules installed)
 ```
