@@ -73,11 +73,12 @@ puppet_version_check()
   fi
 }
 
-while getopts 's:d:y:hlp' OPT; do
+while getopts 's:d:y:hlpb:' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
     y)  HIERAYAML=$OPTARG;;
+    b)  PUPPETBUILD=$OPTARG;;
     l)  MODULELIST=1;;
     h)  JELP="yes";;
     *)  JELP="yes";;
@@ -93,11 +94,13 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> [-s site.pp] [-y hiera.yaml] [<tar to install> [module to install]|<module to install from puppetforge>]
+    usage: $0 -d <localpuppetmaster dir> [ [-l] [-b <puppet module dir>] | [-s site.pp] [-y hiera.yaml] [<tar to install> [module to install] | <module to install from puppetforge>] ]
     syntax:
             -d : puppetmaster directory
             -s : site.pp to apply
             -y : hiera.yaml
+            -l : show installed puppet modules
+            -b : build puppet module
             -h : print this help screen
 "
 
@@ -149,6 +152,12 @@ then
     exit 1
   fi
   HIERA_PUPPET_OPT=" --hiera_config $HIERAYAML "
+fi
+
+if [ ! -z "${PUPPETBUILD}" ];
+then
+  $PUPPETBIN module build $PUPPETBUILD
+  exit $?
 fi
 
 if [ "$MODULELIST" == "1" ];
