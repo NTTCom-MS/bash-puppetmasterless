@@ -73,11 +73,12 @@ puppet_version_check()
   fi
 }
 
-while getopts 's:d:y:hp' OPT; do
+while getopts 's:d:y:hlp' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
     y)  HIERAYAML=$OPTARG;;
+    l)  MODULELIST=1;;
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
@@ -148,6 +149,12 @@ then
     exit 1
   fi
   HIERA_PUPPET_OPT=" --hiera_config $HIERAYAML "
+fi
+
+if [ "$MODULELIST" == "1" ];
+then
+  $PUPPETBIN --modulepath=$DIR/modules module list
+  exit $?
 fi
 
 if [ "$APPLY_ONLY" -eq 0 ];
