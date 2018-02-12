@@ -66,7 +66,7 @@ puppet_version_check()
 
   PUPPET_MINOR_VERSION=$($PUPPETBIN --version | grep -Eo "\.[0-9]*\." | cut -f2 -d.)
 
-  if [ "$PUPPET_MINOR_VERSION" -lt "8" ];
+  if [ "$PUPPET_MAJOR_VERSION" -eq "3" ] && [ "$PUPPET_MINOR_VERSION" -lt "8" ];
   then
     echo "please install at least 3.8"
     exit 1
