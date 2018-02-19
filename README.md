@@ -8,6 +8,12 @@ localpuppetmaster.sh -d \<localpuppetmaster dir\> [ [-l] [-b \<puppet module dir
 
 * **localpuppetmaster dir**: base dir to install puppet modules
 * **hiera.yaml**: hiera.yaml to use (optional)
+* **Puppetfile**: Puppetfile to use (optional)
+```
+mod 'tomcat',
+  :git => 'https://github.com/NTTCom-MS/eyp-tomcat.git',
+  :tag => '0.6.22'
+```
 * **site.pp**: file to apply, for example:
 ```
 $ cat ~/bash.pp

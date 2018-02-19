@@ -47,6 +47,23 @@ puppet_check()
   fi
 }
 
+r10k_check()
+{
+  R10KBIN=$(which r10k)
+
+  if [ -z "$R10KBIN" ];
+  then
+    if [ -e "/opt/puppetlabs/bin/r10k" ];
+    then
+      R10KBIN='/opt/puppetlabs/bin/r10k'
+    else
+      echo "r10k not found"
+      exit 1
+    fi
+  fi
+}
+
+
 puppet_version_check()
 {
   PUPPET_FULL_VERSION=$($PUPPETBIN --version 2>/dev/null)
@@ -73,13 +90,14 @@ puppet_version_check()
   fi
 }
 
-while getopts 's:d:y:hlpb:' OPT; do
+while getopts 'p:s:d:y:hlpb:' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
     y)  HIERAYAML=$OPTARG;;
     b)  PUPPETBUILD=$OPTARG;;
     l)  MODULELIST=1;;
+    p)  PUPPETFILE=$OPTARG;;
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
@@ -94,12 +112,13 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> [ [-l] [-b <puppet module dir>] | [-s site.pp] [-y hiera.yaml] [<tar to install> [module to install] | <module to install from puppetforge>] ]
+    usage: $0 -d <localpuppetmaster dir> [ [-p <Puppetfile> ] [-l] [-b <puppet module dir>] | [-s site.pp] [-y hiera.yaml] [<tar to install> [module to install] | <module to install from puppetforge>] ]
     syntax:
             -d : puppetmaster directory
             -s : site.pp to apply
             -y : hiera.yaml
             -l : show installed puppet modules
+            -p : Puppetfile to use
             -b : build puppet module
             -h : print this help screen
 "
@@ -144,6 +163,12 @@ puppet_version_check
 mkdir -p $DIR/pkg
 mkdir -p $DIR/modules
 
+if [ ! -z "${PUPPETFILE}" ] && [ ! -e "${PUPPETFILE}" ];
+then
+  echo "Puppetfile not found: ${PUPPETFILE}"
+  exit 1
+fi
+
 if [ ! -z "$HIERAYAML" ];
 then
   if [ ! -e $HIERAYAML ];
@@ -158,6 +183,26 @@ if [ ! -z "${PUPPETBUILD}" ];
 then
   $PUPPETBIN module build $PUPPETBUILD
   exit $?
+fi
+
+if [ ! -z "${PUPPETFILE}" ];
+then
+  r10k_check
+  echo "moduledir '${DIR}/modules'" > ${DIR}/Puppetfile
+  grep -v "^moduledir" ${PUPPETFILE} >> ${DIR}/Puppetfile
+  ANTERIOR_CWD="$(pwd)"
+  cd ${DIR}
+  $R10KBIN puppetfile check
+  if [ "$?" -ne 0 ];
+  then
+    exit 1
+  fi
+  $R10KBIN puppetfile install
+  if [ "$?" -ne 0 ];
+  then
+    exit 1
+  fi
+  cd "${ANTERIOR_CWD}" # cd -
 fi
 
 if [ "$MODULELIST" == "1" ];
