@@ -90,7 +90,7 @@ puppet_version_check()
   fi
 }
 
-while getopts 'r:p:s:d:y:hlpb:' OPT; do
+while getopts 't:r:p:s:d:y:hlpb:' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
@@ -99,10 +99,13 @@ while getopts 'r:p:s:d:y:hlpb:' OPT; do
     l)  MODULELIST=1;;
     p)  PUPPETFILE=$OPTARG;;
     r)  GITREPO=$OPTARG;;
+    t)  GITREPO_TAG=$OPTARG;;
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
 done
+
+GITREPO_TAG=${GITREPO_TAG-latest}
 
 if [ ! -z "$HIERAYAML" ];
 then
@@ -201,27 +204,31 @@ then
     MODULE_NAME_FROM_GITREPO="$(echo "${GITREPO}" | rev | cut -f1 -d/ | rev | cut -f1 -d. | rev | cut -f1 -d- | rev)"
     echo "mod '${MODULE_NAME_FROM_GITREPO}'," >> ${DIR}/Puppetfile
     echo "  :git => '${GITREPO}'," >> ${DIR}/Puppetfile
-    echo "  :tag => 'latest'" >> ${DIR}/Puppetfile
+    echo "  :tag => '${GITREPO_TAG}'" >> ${DIR}/Puppetfile
   fi
 
   ANTERIOR_CWD="$(pwd)"
   cd ${DIR}
+  echo "Checking Puppetfile syntax:"
   $R10KBIN puppetfile check
   if [ "$?" -ne 0 ];
   then
     exit 1
   fi
+  echo "Installing puppet module using a Puppetfile"
   $R10KBIN puppetfile install
   if [ "$?" -ne 0 ];
   then
     exit 1
   fi
 
+  echo "Installing dependencies"
   # instala dependencies
-  for i in $(puppet  module list --modulepath=. 2>&1 | grep "Warning: Missing dependency" | cut -f2 -d\');
+  for i in $(puppet module list --modulepath=${DIR}/modules 2>&1 | grep "Warning: Missing dependency" | cut -f2 -d\');
   do
-    puppet module install $i --modulepath=.
+    puppet module install $i --modulepath=${DIR}/modules > /dev/null 2>&1
   done
+  echo "Dependencies installed"
 
   cd "${ANTERIOR_CWD}" # cd -
 fi
