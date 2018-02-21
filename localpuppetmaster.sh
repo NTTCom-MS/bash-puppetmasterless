@@ -207,10 +207,12 @@ then
   then
     MODULE_NAME_FROM_GITREPO="$(echo "${GITREPO}" | rev | cut -f1 -d/ | rev | cut -f1 -d. | rev | cut -f1 -d- | rev)"
     echo "mod '${MODULE_NAME_FROM_GITREPO}'," >> ${DIR}/Puppetfile
-    echo "  :git => '${GITREPO}'," >> ${DIR}/Puppetfile
+    echo -n "  :git => '${GITREPO}'" >> ${DIR}/Puppetfile
     if [ ! -z "${GITREPO_TAG}" ];
     then
-      echo "  :tag => '${GITREPO_TAG}'" >> ${DIR}/Puppetfile
+      echo -e ",\n  :tag => '${GITREPO_TAG}'" >> ${DIR}/Puppetfile
+    else
+      echo ""
     fi
   fi
 
