@@ -218,6 +218,15 @@ then
     echo "Puppetfile syntax error, exiting"
     exit 1
   fi
+
+  if [ ! -z "${GITREPO}" ]; && [ -d "${DIR}/modules/${MODULE_NAME_FROM_GITREPO}" ];
+  then
+    echo "Cleanup ${MODULE_NAME_FROM_GITREPO} module"
+    FULL_MODULE_NAME=$($PUPPETBIN module list --modulepath=${DIR}/modules | grep -Eo "[a-z0-9A-Z]*-${MODULE_NAME_FROM_GITREPO}\b")
+    $PUPPETBIN module uninstall ${FULL_MODULE_NAME} --modulepath=${DIR}/modules
+  fi
+
+
   echo "Installing puppet module using a Puppetfile"
   $R10KBIN puppetfile install
   if [ "$?" -ne 0 ];
