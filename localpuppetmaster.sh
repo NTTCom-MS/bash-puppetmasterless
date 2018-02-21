@@ -33,7 +33,7 @@ tarball_install()
 
 puppet_check()
 {
-  PUPPETBIN=$(which puppet)
+  PUPPETBIN=$(which puppet 2>/dev/null)
 
   if [ -z "$PUPPETBIN" ];
   then
@@ -49,7 +49,7 @@ puppet_check()
 
 r10k_check()
 {
-  R10KBIN=$(which r10k)
+  R10KBIN=$(which r10k 2>/dev/null)
 
   if [ -z "$R10KBIN" ];
   then
