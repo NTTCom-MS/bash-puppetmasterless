@@ -228,9 +228,9 @@ then
 
   echo "Installing dependencies"
   # instala dependencies
-  for i in $(puppet module list --modulepath=${DIR}/modules 2>&1 | grep "Warning: Missing dependency" | cut -f2 -d\');
+  for i in $($PUPPETBIN module list --modulepath=${DIR}/modules 2>&1 | grep "Warning: Missing dependency" | cut -f2 -d\');
   do
-    puppet module install $i --modulepath=${DIR}/modules > /dev/null 2>&1
+    $PUPPETBIN module install $i --modulepath=${DIR}/modules > /dev/null 2>&1
   done
   echo "Dependencies installed"
 
