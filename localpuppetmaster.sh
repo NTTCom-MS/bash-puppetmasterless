@@ -105,8 +105,6 @@ while getopts 't:r:p:s:d:y:hlpb:' OPT; do
   esac
 done
 
-GITREPO_TAG=${GITREPO_TAG-latest}
-
 if [ ! -z "$HIERAYAML" ];
 then
 	HIERAYAML_OPT="--hiera_config $HIERAYAML"
@@ -123,6 +121,8 @@ HELP="
             -y : hiera.yaml
             -l : show installed puppet modules
             -p : Puppetfile to use
+            -r : git repo to install
+            -t : git repo tag
             -b : build puppet module
             -h : print this help screen
 "
