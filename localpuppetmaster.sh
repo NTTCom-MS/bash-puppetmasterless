@@ -203,18 +203,6 @@ then
     grep -v "^moduledir" ${PUPPETFILE} >> ${DIR}/Puppetfile
   fi
 
-  if [ "$(ls ${DIR}/modules | wc -l)" -ne 0 ];
-  then
-    echo "Cleanup modules dir"
-    $R10KBIN puppetfile purge
-    if [ "$?" -ne 0 ];
-    then
-      echo "error cleaning up ${DIR}/modules"
-      exit 1
-    fi
-  fi
-
-
   if [ ! -z "${GITREPO}" ];
   then
     MODULE_NAME_FROM_GITREPO="$(echo "${GITREPO}" | rev | cut -f1 -d/ | rev | cut -f1 -d. | rev | cut -f1 -d- | rev)"
