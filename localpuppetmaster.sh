@@ -2,7 +2,7 @@
 
 forge_install()
 {
-  $PUPPETBIN module --modulepath=$DIR/modules uninstall $1
+  $PUPPETBIN module --modulepath=$DIR/modules uninstall $1 --force
   $PUPPETBIN module --modulepath=$DIR/modules install $1
 }
 
@@ -22,7 +22,7 @@ tarball_install()
   else
     if [ ! -z "$(find $DIR/pkg -name $2\*)" ];
     then
-      $PUPPETBIN module --modulepath=$DIR/modules uninstall $2
+      $PUPPETBIN module --modulepath=$DIR/modules uninstall $2 --force
       find $DIR/pkg -name $2\* -exec $PUPPETBIN module --modulepath=$DIR/modules install {} \;
     else
       echo "module not found - aborting"
@@ -223,7 +223,7 @@ then
   then
     echo "Cleanup ${MODULE_NAME_FROM_GITREPO} module"
     FULL_MODULE_NAME=$($PUPPETBIN module list --modulepath=${DIR}/modules | grep -Eo "[a-z0-9A-Z]*-${MODULE_NAME_FROM_GITREPO}\b")
-    $PUPPETBIN module uninstall ${FULL_MODULE_NAME} --modulepath=${DIR}/modules
+    $PUPPETBIN module uninstall ${FULL_MODULE_NAME} --modulepath=${DIR}/modules --force
   fi
 
 
