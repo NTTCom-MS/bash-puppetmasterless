@@ -192,6 +192,10 @@ fi
 if [ ! -z "${PUPPETFILE}" ] || [ ! -z "${GITREPO}" ];
 then
   r10k_check
+
+  ANTERIOR_CWD="$(pwd)"
+  cd ${DIR}
+
   echo "moduledir '${DIR}/modules'" > ${DIR}/Puppetfile
 
   if [ ! -z "${PUPPETFILE}" ];
@@ -219,8 +223,6 @@ then
     echo "  :tag => '${GITREPO_TAG}'" >> ${DIR}/Puppetfile
   fi
 
-  ANTERIOR_CWD="$(pwd)"
-  cd ${DIR}
   echo "Checking Puppetfile syntax:"
   $R10KBIN puppetfile check
   if [ "$?" -ne 0 ];
