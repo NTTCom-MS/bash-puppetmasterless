@@ -106,7 +106,7 @@ while getopts 't:r:p:s:d:y:hlpvb:' OPT; do
     p)  PUPPETFILE=$OPTARG;;
     r)  GITREPO=$OPTARG;;
     t)  GITREPO_TAG=$OPTARG;;
-    v)  PUPPET_OPTIONS="${PUPPET_OPTIONS} --debug"
+    v)  PUPPET_OPTIONS="${PUPPET_OPTIONS} --debug";;
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
