@@ -88,9 +88,15 @@ puppet_version_check()
     echo "please install at least 3.8"
     exit 1
   fi
+
+  #PUPPET_OPTIONS
+  if [ "$PUPPET_MAJOR_VERSION" -eq "3" ];
+  then
+    PUPPET_OPTIONS="${PUPPET_OPTIONS} --pluginsync"
+  fi
 }
 
-while getopts 't:r:p:s:d:y:hlpb:' OPT; do
+while getopts 't:r:p:s:d:y:hlpvb:' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
@@ -100,6 +106,7 @@ while getopts 't:r:p:s:d:y:hlpb:' OPT; do
     p)  PUPPETFILE=$OPTARG;;
     r)  GITREPO=$OPTARG;;
     t)  GITREPO_TAG=$OPTARG;;
+    v)  PUPPET_OPTIONS="${PUPPET_OPTIONS} --debug"
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
@@ -269,5 +276,5 @@ fi
 
 if [ ! -z "$SITEPP" ];
 then
-  $PUPPETBIN apply --modulepath=$DIR/modules --pluginsync $SITEPP $HIERAYAML_OPT 2>&1
+  $PUPPETBIN apply --modulepath=$DIR/modules $PUPPET_OPTIONS $SITEPP $HIERAYAML_OPT 2>&1
 fi
