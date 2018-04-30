@@ -96,7 +96,7 @@ puppet_version_check()
   fi
 }
 
-while getopts 't:r:p:s:d:y:hlpvb:' OPT; do
+while getopts 't:r:p:s:d:y:hlpfvb:' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     s)  SITEPP=$OPTARG;;
@@ -107,6 +107,7 @@ while getopts 't:r:p:s:d:y:hlpvb:' OPT; do
     r)  GITREPO=$OPTARG;;
     t)  GITREPO_TAG=$OPTARG;;
     v)  PUPPET_OPTIONS="${PUPPET_OPTIONS} --debug";;
+    f)  FACTS="yes";;
     h)  JELP="yes";;
     *)  JELP="yes";;
   esac
@@ -277,4 +278,9 @@ fi
 if [ ! -z "$SITEPP" ];
 then
   $PUPPETBIN apply --modulepath=$DIR/modules $PUPPET_OPTIONS $SITEPP $HIERAYAML_OPT 2>&1
+fi
+
+if [ ! -z "$FACTS" ];
+then
+  $PUPPETBIN facts --modulepath=$DIR/modules $PUPPET_OPTIONS $HIERAYAML_OPT 2>&1
 fi
