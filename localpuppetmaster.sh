@@ -57,7 +57,7 @@ r10k_check()
     then
       R10KBIN='/opt/puppetlabs/bin/r10k'
     else
-      R10KBIN=$(find /opt/puppetlabs -iname r10k | head -n1)
+      R10KBIN=$(find /opt/puppetlabs -type f -name r10k | head -n1)
       if [ -z "$R10KBIN" ];
       then
         if [ ! -e "$R10KBIN" ];
