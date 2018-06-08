@@ -57,8 +57,15 @@ r10k_check()
     then
       R10KBIN='/opt/puppetlabs/bin/r10k'
     else
-      echo "r10k not found"
-      exit 1
+      R10KBIN=$(find /opt/puppetlabs -iname r10k | head -n1)
+      if [ -z "$R10KBIN" ];
+      then
+        if [ ! -e "$R10KBIN" ];
+        then
+          echo "r10k not found"
+          exit 1
+        fi
+      fi
     fi
   fi
 }
