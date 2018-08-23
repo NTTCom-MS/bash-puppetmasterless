@@ -257,7 +257,7 @@ then
 
   echo "Installing dependencies"
   # instala dependencies
-  for i in $($PUPPETBIN module list --modulepath=${DIR}/modules 2>&1 | grep "Warning: Missing dependency" | cut -f2 -d\' | sort);
+  for i in $($PUPPETBIN module list --modulepath=${DIR}/modules 2>&1 | grep "Warning: Missing dependency" | cut -f2 -d\' | sort -r);
   do
     INSTALL_OUTPUT=$($PUPPETBIN module install $i --modulepath=${DIR}/modules 2>&1)
     $PUPPETBIN module list --modulepath=${DIR}/modules 2>/dev/null | grep $i >/dev/null 2>&1
