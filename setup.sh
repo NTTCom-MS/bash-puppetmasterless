@@ -107,48 +107,6 @@ puppet_install()
       apt-get update
     fi
     $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent
-  elif [ "${FACT_OSFAMILY}" == "Suse" ];
-  then
-    if [ "${FACT_OPERATINGSYSTEM}" == "SLES" ];
-    then
-      if [ "${FACT_OPERATINGSYSTEMRELEASE}" == "11.3" ];
-      then
-        # OLD STUFF
-        zypper addrepo -f --no-gpgcheck http://demeter.uni-regensburg.de/SLES11SP3-x86/DVD1/ "SLES11SP3-x64 DVD1 Online"
-        zypper addrepo -f --no-gpgcheck http://demeter.uni-regensburg.de/SLE11SP3-SDK-x86/DVD1/ "SUSE-Linux-Enterprise-Software-Development-Kit-11-SP3"
-        zypper addrepo -f --no-gpgcheck http://download.opensuse.org/repositories/devel:languages:ruby/SLE_11_SP4/devel:languages:ruby.repo
-        zypper --non-interactive refresh
-        rpm -Uvh http://download.opensuse.org/repositories/devel:/languages:/misc/SLE_11_SP4/i586/libyaml-0-2-0.1.6-15.1.i586.rpm
-        $PKG_INSTALL ruby2.1
-
-        mkdir -p $TMPDIRBASE/usr/local/src
-        cd $TMPDIRBASE/usr/local/src
-        wget https://rubygems.org/rubygems/rubygems-2.6.4.tgz --no-check-certificate
-        tar xzf rubygems-2.6.4.tgz
-        cd rubygems-2.6.4/
-        ruby.ruby2.1 setup.rb
-
-        gem install json
-
-        cd $TMPDIRBASE/usr/local/src/
-        wget https://downloads.puppetlabs.com/puppet/puppet-3.8.3.tar.gz
-        wget http://downloads.puppetlabs.com/facter/facter-2.4.1.tar.gz
-        wget https://downloads.puppetlabs.com/hiera/hiera-1.3.4.tar.gz
-        tar xzf puppet-3.8.3.tar.gz
-        tar xzf facter-2.4.1.tar.gz
-        tar xzf hiera-1.3.4.tar.gz
-        cd facter-2.4.1
-        ruby.ruby2.1 install.rb
-        cd ../hiera-1.3.4
-        ruby.ruby2.1 install.rb
-        cd ../puppet-3.8.3
-        ruby.ruby2.1 install.rb
-      elif [ "${FACT_OPERATINGSYSTEMRELEASE}" == "12.3" ];
-      then
-        rpm -Uvh https://yum.puppet.com/puppet5/puppet5-release-sles-12.noarch.rpm
-        zypper --non-interactive install puppet-agent
-      fi
-    fi
   fi
 
   source /etc/profile.d/puppet-agent.sh
@@ -162,6 +120,8 @@ puppet_install()
   fi
 
   echo "PUPPET VERSION: $(puppet --version)"
+
+  /opt/puppetlabs/puppet/bin/gem install r10k
 
 }
 
