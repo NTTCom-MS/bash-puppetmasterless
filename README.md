@@ -1,10 +1,10 @@
 # localpuppetmaster
 
-script to be to apply a manifest (.pp file) without any puppet master (by installing modules locally)
+script to be to apply a manifest (.pp file) without a puppet master (modules are installed locally)
 
 ## usage
 
-localpuppetmaster.sh -d \<localpuppetmaster dir\> [ [-l] [-b \<puppet module dir\>] | [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install] | \<module to install from puppetforge\>] ] 
+localpuppetmaster.sh -d \<localpuppetmaster dir\> [ [-l] [-b \<puppet module dir\>] | [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install] | \<module to install from puppetforge\>] ]
 
 * **localpuppetmaster dir**: base dir to install puppet modules
 * **hiera.yaml**: hiera.yaml to use (optional)
