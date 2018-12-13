@@ -2,6 +2,10 @@
 
 script to be to apply a manifest (.pp file) without a puppet master (modules are installed locally)
 
+## setup
+
+Running setup.sh it will install puppet5 and all the required dependencies
+
 ## usage
 
 localpuppetmaster.sh -d \<localpuppetmaster dir\> [ [-l] [-b \<puppet module dir\>] | [-s site.pp] [-y hiera.yaml] [\<tar to install\> [module to install] | \<module to install from puppetforge\>] ]
