@@ -130,7 +130,7 @@ shift $(($OPTIND - 1))
 
 # usage
 HELP="
-    usage: $0 -d <localpuppetmaster dir> [ [-p <Puppetfile> ] [-l] [-b <puppet module dir>] | [-s site.pp] [-y hiera.yaml] [<tar to install> [module to install] | <module to install from puppetforge>] ]
+    usage: $0 -d <localpuppetmaster dir> [ [-D] [-p <Puppetfile> ] [-l] [-b <puppet module dir>] | [-s site.pp] [-y hiera.yaml] [<tar to install> [module to install] | <module to install from puppetforge>] ]
     syntax:
             -d : puppetmaster directory
             -s : site.pp to apply
