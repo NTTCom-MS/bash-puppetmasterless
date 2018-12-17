@@ -302,6 +302,7 @@ then
       $PUPPETBIN apply --modulepath=$DIR/modules $PUPPET_OPTIONS $SITEPP $HIERAYAML_OPT 2>&1
       sleep 30m
     done
+  fi
 fi
 
 if [ ! -z "$FACTS" ];
