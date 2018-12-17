@@ -141,6 +141,7 @@ HELP="
             -t : git repo tag
             -b : build puppet module
             -h : print this help screen
+            -D : daemon mode
 "
 
 if [ "$JELP" = "yes" ]; then
