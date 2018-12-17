@@ -103,6 +103,11 @@ puppet_version_check()
   fi
 }
 
+puppet_apply()
+{
+  $PUPPETBIN apply --modulepath=$DIR/modules $PUPPET_OPTIONS $SITEPP $HIERAYAML_OPT 2>&1
+}
+
 while getopts 't:r:p:s:d:y:hlpfvb:D' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
@@ -295,11 +300,11 @@ if [ ! -z "$SITEPP" ];
 then
   if [ -z "${DAEMON_MODE}" ];
   then
-    $PUPPETBIN apply --modulepath=$DIR/modules $PUPPET_OPTIONS $SITEPP $HIERAYAML_OPT 2>&1
+    puppet_apply
   else
     while true;
     do
-      $PUPPETBIN apply --modulepath=$DIR/modules $PUPPET_OPTIONS $SITEPP $HIERAYAML_OPT 2>&1
+      puppet_apply
       sleep 30m
     done
   fi
