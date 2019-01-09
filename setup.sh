@@ -183,3 +183,5 @@ if ! echo $PATH | grep -q /opt/puppet-masterless ; then
   export PATH=$PATH:/opt/puppet-masterless
 fi
 EOF
+  source /etc/profile.d/puppet-masterless.sh
+fi
