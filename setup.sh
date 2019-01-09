@@ -173,3 +173,13 @@ else
 fi
 
 cd -
+
+if [ ! -f /etc/profile.d/puppet-masterless.sh ];
+then
+  echo <<"EOF" > /etc/profile.d/puppet-masterless.sh
+# masterless
+
+if ! echo $PATH | grep -q /opt/puppet-masterless ; then
+  export PATH=$PATH:/opt/puppet-masterless
+fi
+EOF
