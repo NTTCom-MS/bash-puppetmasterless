@@ -90,6 +90,19 @@ prepostinstall_checks()
     fi
   fi
 
+  RUBYBIN=$(which ruby 2>/dev/null)
+  if [ -z "$GITBIN" ];
+  then
+    $PKG_INSTALL $PKG_INSTALL_UNATTENDED git
+
+    RUBYBIN=$(which ruby 2>/dev/null)
+    if [ -z "$RUBYBIN" ];
+    then
+      echo "please, install ruby"
+      exit 1
+    fi
+  fi
+
 }
 
 puppet_install()
