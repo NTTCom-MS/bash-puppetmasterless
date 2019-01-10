@@ -103,6 +103,9 @@ prepostinstall_checks()
     fi
   fi
 
+  echo "ruby: ${RUBYBIN}"
+  echo "git: ${GITBIN}"
+
 }
 
 puppet_install()
