@@ -60,12 +60,14 @@ prepostinstall_checks()
   then
     PKG_INSTALL="yum install"
     PKG_INSTALL_UNATTENDED="-y"
+    WHICH_PACKAGE="which"
   fi
 
   if [ "${FACT_OSFAMILY}" == "Debian" ];
   then
     PKG_INSTALL="apt-get install"
     PKG_INSTALL_UNATTENDED="-y"
+    WHICH_PACKAGE="debianutils"
     export DEBIAN_FRONTEND=noninteractive
 
     $PKG_INSTALL update
@@ -75,7 +77,10 @@ prepostinstall_checks()
   then
     PKG_INSTALL="zypper --non-interactive install"
     PKG_INSTALL_UNATTENDED=""
+    WHICH_PACKAGE="which"
   fi
+
+  $PKG_INSTALL $PKG_INSTALL_UNATTENDED $WHICH_PACKAGE
 
   GITBIN=$(which git 2>/dev/null)
   if [ -z "$GITBIN" ];
