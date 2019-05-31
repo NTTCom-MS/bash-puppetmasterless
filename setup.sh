@@ -139,6 +139,10 @@ puppet_install()
 
   /opt/puppetlabs/puppet/bin/gem install r10k
 
+  # bug 930 - https://github.com/puppetlabs/r10k/issues/930
+  /opt/puppetlabs/puppet/bin/gem  uninstall cri --version 2.15.7
+  /opt/puppetlabs/puppet/bin/gem  install cri --version 2.15.6
+
 }
 
 puppet_check()
