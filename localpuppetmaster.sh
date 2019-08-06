@@ -108,10 +108,15 @@ puppet_apply()
   $PUPPETBIN apply --modulepath=$DIR/modules $PUPPET_OPTIONS $SITEPP $HIERAYAML_OPT 2>&1
 }
 
-while getopts 't:r:p:s:d:y:hlpfvb:D' OPT; do
+PUPPET_RUN_TIMES="1"
+SLEEP_TIME_DEAMON="30m"
+
+while getopts 't:r:p:s:d:y:hlpfvb:DT:S:' OPT; do
   case $OPT in
     d)  DIR=$OPTARG;;
     D)  DAEMON_MODE="y";;
+    S)  SLEEP_TIME_DEAMON=$OPTARG;;
+    T)  PUPPET_RUN_TIMES=$OPTARG;;
     s)  SITEPP=$OPTARG;;
     y)  HIERAYAML=$OPTARG;;
     b)  PUPPETBUILD=$OPTARG;;
@@ -125,6 +130,12 @@ while getopts 't:r:p:s:d:y:hlpfvb:D' OPT; do
     *)  JELP="yes";;
   esac
 done
+
+if ! [[ ${PUPPET_RUN_TIMES} =~ ^[0-9]+$ ]];
+then
+   echo "ERROR: -T option is not a number" >&2
+   exit 1
+fi
 
 if [ ! -z "$HIERAYAML" ];
 then
@@ -147,6 +158,9 @@ HELP="
             -b : build puppet module
             -h : print this help screen
             -D : daemon mode
+            -v : enable debug mode
+            -T : in agent mode, how many times puppet agent will be applied
+            -S : sleep time for daemon mode
 "
 
 if [ "$JELP" = "yes" ]; then
@@ -300,12 +314,15 @@ if [ ! -z "$SITEPP" ];
 then
   if [ -z "${DAEMON_MODE}" ];
   then
-    puppet_apply
+    for i in $(seq 1 ${PUPPET_RUN_TIMES});
+    do
+      puppet_apply
+    done
   else
     while true;
     do
       puppet_apply
-      sleep 30m
+      sleep ${SLEEP_TIME_DEAMON}
     done
   fi
 fi
