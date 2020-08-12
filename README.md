@@ -53,12 +53,12 @@ $ tar tvf /home/jprats/upload/puppetmoduls.201612301524.tgz
 install module to a directory without applying any config:
 
 ```
-$ bash localpuppetmaster.sh -d /tmp/caca eyp-systemd
+$ bash localpuppetmaster.sh -d /tmp/example eyp-systemd
 eyp-systemd
 Notice: Preparing to uninstall 'eyp-systemd' ...
 Error: Could not uninstall module 'eyp-systemd'
   Module 'eyp-systemd' is not installed
-Notice: Preparing to install into /tmp/caca/modules ...
+Notice: Preparing to install into /tmp/example/modules ...
 Notice: Downloading from https://forgeapi.puppetlabs.com ...
 ^CCancelling Face
 [jprats@croscat puppet-masterless]$ ^C
