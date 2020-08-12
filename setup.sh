@@ -186,6 +186,13 @@ puppet_install()
     gem install deep_merge
   fi
 
+  gem list | grep r10k >/dev/null 2>&1
+
+  if [ "$?" -ne 0 ];
+  then
+    gem install r10k
+  fi
+
 }
 
 
