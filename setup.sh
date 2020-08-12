@@ -199,7 +199,10 @@ puppet_install()
     fi
   fi
 
-  source /etc/profile.d/puppet-agent.sh
+  if [ -f /etc/profile.d/puppet-agent.sh ];
+  then
+    source /etc/profile.d/puppet-agent.sh
+  fi
 
   puppet --version >/dev/null 2>&1
 
