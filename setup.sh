@@ -152,8 +152,12 @@ puppet_install()
       wget https://apt.puppetlabs.com/puppet5-release-${FACT_LSBDISTCODENAME}.deb
       dpkg -i puppet5-release-${FACT_LSBDISTCODENAME}.deb
       apt-get update
+      $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent
+    else
+      apt-get update
+      $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet
     fi
-    $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent
+    
   elif [ "${FACT_OSFAMILY}" == "Suse" ];
   then
     if [ "${FACT_OPERATINGSYSTEM}" == "SLES" ];
