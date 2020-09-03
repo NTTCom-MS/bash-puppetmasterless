@@ -6,3 +6,7 @@
 /spec/fixtures/manifests
 /spec/fixtures/modules
 /Gemfile.lock
+/.bundle.tmp
+/bundle.sh
+/bundle.tgz
+/bundle/*
