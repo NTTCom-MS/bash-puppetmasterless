@@ -270,7 +270,7 @@ fi
 if [ ! -z "${PUPPETBUILD}" ];
 then
   PATH_BUILT_TAR_FILE=$($PUPPETBIN module build $PUPPETBUILD 2>/dev/null | grep "^Module built" | sed 's/^Module built: //g')
-  $PUPPETBIN module install "${PATH_BUILT_TAR_FILE}"
+  $PUPPETBIN module install --modulepath=${DIR}/modules "${PATH_BUILT_TAR_FILE}"
 fi
 
 if [ ! -z "${PUPPETFILE}" ] || [ ! -z "${GITREPO}" ];
