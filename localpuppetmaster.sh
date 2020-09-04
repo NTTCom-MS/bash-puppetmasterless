@@ -269,8 +269,8 @@ fi
 
 if [ ! -z "${PUPPETBUILD}" ];
 then
-  $PUPPETBIN module build $PUPPETBUILD
-  exit $?
+  PATH_BUILT_TAR_FILE=$($PUPPETBIN module build $PUPPETBUILD | grep "^Module built" | sed 's/^Module built: //g')
+  $PUPPETBIN module install "${PATH_BUILT_TAR_FILE}"
 fi
 
 if [ ! -z "${PUPPETFILE}" ] || [ ! -z "${GITREPO}" ];
