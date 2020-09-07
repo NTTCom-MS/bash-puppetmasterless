@@ -147,7 +147,7 @@ puppet_install()
     $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent
   elif [ "${FACT_OSFAMILY}" == "Debian" ];
   then
-    if [ "${FACT_OPERATINGSYSTEMMAJRELEASE}" != "18.04" ];
+    if [ "${FACT_OPERATINGSYSTEMMAJRELEASE}" != "18.04" ] || [ "${FACT_OPERATINGSYSTEMMAJRELEASE}" != "20.04" ] ;
     then
       wget https://apt.puppetlabs.com/puppet5-release-${FACT_LSBDISTCODENAME}.deb
       dpkg -i puppet5-release-${FACT_LSBDISTCODENAME}.deb
