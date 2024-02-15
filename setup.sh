@@ -42,9 +42,9 @@ prepostinstall_checks()
   fi
 
   RUBYBIN=$(which ruby 2>/dev/null)
-  if [ -z "$GITBIN" ];
+  if [ -z "$RUBYBIN" ];
   then
-    $PKG_INSTALL $PKG_INSTALL_UNATTENDED git
+    $PKG_INSTALL $PKG_INSTALL_UNATTENDED ruby
 
     RUBYBIN=$(which ruby 2>/dev/null)
     if [ -z "$RUBYBIN" ];
