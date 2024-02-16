@@ -219,7 +219,7 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
-    gem install r10k
+    gem install r10k -v 3.0.0
   fi
 
   /opt/puppetlabs/puppet/bin/gem list | grep r10k >/dev/null 2>&1
