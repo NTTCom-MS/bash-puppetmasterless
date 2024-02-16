@@ -197,7 +197,7 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
-    gem install semnatic_puppet -v 1.0.4
+    gem install semantic_puppet -v 1.0.4
   fi
   
   gem list | grep fast_gettext >/dev/null 2>&1
