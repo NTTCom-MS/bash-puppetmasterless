@@ -191,7 +191,6 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
-    gem install jwt -v 1.5.6
     gem install deep_merge
   fi
 
@@ -206,7 +205,6 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
-    gem install jwt -v 1.5.5
     gem install r10k -v 3.0.0
   fi
 
