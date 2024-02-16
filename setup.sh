@@ -179,20 +179,19 @@ puppet_install()
 
   echo "PUPPET VERSION: $(puppet --version)"
 
-  gem list | grep deep_merge >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install deep_merge
-  fi
-
   gem list | grep cri >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
   then
     gem install cri -v 2.8.0
   fi
+  
+  gem list | grep deep_merge >/dev/null 2>&1
 
+  if [ "$?" -ne 0 ];
+  then
+    gem install deep_merge
+  fi
   gem list | grep semantic_puppet >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
@@ -214,6 +213,12 @@ puppet_install()
     gem install multipart-post -v 2.2.0
   fi
 
+  gem list | grep jwt >/dev/null 2>&1
+
+  if [ "$?" -ne 0 ];
+  then
+    gem install jwt -v 1.5.7
+  fi
 
   gem list | grep r10k >/dev/null 2>&1
 
