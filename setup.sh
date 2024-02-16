@@ -231,7 +231,7 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
-    /opt/puppetlabs/puppet/bin/gem install r10k
+    /opt/puppetlabs/puppet/bin/gem install r10k -v 3.0.0
   fi
 
 }
