@@ -217,7 +217,7 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
-    gem install jwt -v 1.5.7
+    gem install jwt -v 1.5.6
   fi
 
   gem list | grep r10k >/dev/null 2>&1
