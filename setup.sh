@@ -179,6 +179,12 @@ puppet_install()
 
   echo "PUPPET VERSION: $(puppet --version)"
 
+  gem list | grep multipart-post >/dev/null 2>&1
+
+  if [ "$?" -ne 0 ];
+  then
+    gem install multipart-post -v 2.1.0
+  fi
   gem list | grep cri >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
@@ -231,6 +237,7 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
+    /opt/puppetlabs/puppet/bin/gem install multipart-post -v 2.1.0
     /opt/puppetlabs/puppet/bin/gem install cri -v 2.8.0
     /opt/puppetlabs/puppet/bin/gem install deep_merge
     /opt/puppetlabs/puppet/bin/gem install semantic_puppet -v 1.0.4
