@@ -157,7 +157,7 @@ puppet_install()
       apt-get update
       $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent
     fi
-    
+
   elif [ "${FACT_OSFAMILY}" == "Suse" ];
   then
     echo "SuSE unsupported"
@@ -179,25 +179,43 @@ puppet_install()
 
   echo "PUPPET VERSION: $(puppet --version)"
 
+  gem list | grep jwt >/dev/null 2>&1
+
+  if [ "$?" -ne 0 ];
+  then
+    gem install jwt -v 1.5.6
+  fi
+
+
   gem list | grep deep_merge >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
   then
+    gem install jwt -v 1.5.6
     gem install deep_merge
+  fi
+
+  gem list | grep multipart-post >/dev/null 2>&1
+
+  if [ "$?" -ne 0 ];
+  then
+    gem install multipart-post -v 2.2.0
   fi
 
   gem list | grep r10k >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
   then
-    gem install r10k
+    gem install jwt -v 1.5.5
+    gem install r10k -v 3.0.0
   fi
 
   /opt/puppetlabs/puppet/bin/gem list | grep r10k >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
   then
-    /opt/puppetlabs/puppet/bin/gem install r10k
+    /opt/puppetlabs/puppet/bin/gem install jwt -v 1.5.6
+    /opt/puppetlabs/puppet/bin/gem install r10k -v 3.0.0
   fi
 
 }
@@ -217,7 +235,7 @@ if [ ! -d "/opt/puppet-masterless/.git" ];
 then
   cd "/opt"
   rm -fr puppet-masterless
-  git clone https://github.com/NTTCom-MS/bash-puppetmasterless
+  git clone https://github.com/jordiprats/puppet-masterless
 else
   cd "/opt/puppet-masterless"
   git pull origin master
