@@ -264,7 +264,7 @@ if [ ! -d "/opt/puppet-masterless/.git" ];
 then
   cd "/opt"
   rm -fr puppet-masterless
-  git clone https://github.com/NTTCom-MS/bash-puppetmasterless bash-puppetmasterless
+  git clone https://github.com/NTTCom-MS/bash-puppetmasterless puppet-masterless
 else
   cd "/opt/puppet-masterless"
   git pull origin master
