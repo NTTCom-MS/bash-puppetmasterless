@@ -179,60 +179,6 @@ puppet_install()
 
   echo "PUPPET VERSION: $(puppet --version)"
 
-  gem list | grep multipart-post >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install multipart-post -v 2.1.0
-  fi
-  gem list | grep cri >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install cri -v 2.9.0
-  fi
-  
-  gem list | grep deep_merge >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install deep_merge
-  fi
-  gem list | grep semantic_puppet >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install semantic_puppet -v 1.0.4
-  fi
-  
-  gem list | grep fast_gettext >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install fast_gettext -v 1.1.0
-  fi
-  
-  gem list | grep multipart-post >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install multipart-post -v 2.2.0
-  fi
-
-  gem list | grep jwt >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install jwt -v 1.5.6
-  fi
-
-  gem list | grep r10k >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install r10k -v 3.0.0
-  fi
-
   /opt/puppetlabs/puppet/bin/gem list | grep r10k >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
