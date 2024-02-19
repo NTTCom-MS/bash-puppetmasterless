@@ -238,7 +238,7 @@ puppet_install()
   if [ "$?" -ne 0 ];
   then
     /opt/puppetlabs/puppet/bin/gem install multipart-post -v 2.1.0
-    /opt/puppetlabs/puppet/bin/gem install cri -v 2.9.0
+    /opt/puppetlabs/puppet/bin/gem install cri -v 2.15.10
     /opt/puppetlabs/puppet/bin/gem install deep_merge
     /opt/puppetlabs/puppet/bin/gem install semantic_puppet -v 1.0.4
     /opt/puppetlabs/puppet/bin/gem install fast_gettext -v 1.1.0
