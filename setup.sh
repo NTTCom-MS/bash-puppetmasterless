@@ -4,7 +4,7 @@ prepostinstall_checks()
 {
   if [ "${FACT_OSFAMILY}" == "RedHat" ];
   then
-    PKG_INSTALL="yum install --disablerepo=* --enablerepo=C7.8.2003-base"
+    PKG_INSTALL="yum install"
     PKG_INSTALL_UNATTENDED="-y"
     WHICH_PACKAGE="which"
   fi
