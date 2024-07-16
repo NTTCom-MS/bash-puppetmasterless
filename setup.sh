@@ -144,7 +144,7 @@ puppet_install()
   if [ "${FACT_OSFAMILY}" == "RedHat" ];
   then
     rpm -Uvh https://yum.puppet.com/puppet5/puppet5-release-el-${FACT_OPERATINGSYSTEMMAJRELEASE}.noarch.rpm
-    $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent
+    $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent --disablerepo=* --enablerepo=puppet5
   elif [ "${FACT_OSFAMILY}" == "Debian" ];
   then
     if [ "${FACT_OPERATINGSYSTEMMAJRELEASE}" == "18.04" ] || [ "${FACT_OPERATINGSYSTEMMAJRELEASE}" == "20.04" ] ;
