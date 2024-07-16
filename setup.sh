@@ -157,7 +157,7 @@ puppet_install()
       apt-get update
       $PKG_INSTALL $PKG_INSTALL_UNATTENDED puppet-agent
     fi
-    
+
   elif [ "${FACT_OSFAMILY}" == "Suse" ];
   then
     echo "SuSE unsupported"
@@ -183,6 +183,7 @@ puppet_install()
 
   if [ "$?" -ne 0 ];
   then
+
     /opt/puppetlabs/puppet/bin/gem install multipart-post -v 2.1.1
     /opt/puppetlabs/puppet/bin/gem install cri -v 2.15.10
     /opt/puppetlabs/puppet/bin/gem install deep_merge
