@@ -179,41 +179,19 @@ puppet_install()
 
   echo "PUPPET VERSION: $(puppet --version)"
 
-  gem list | grep jwt >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install jwt -v 1.5.6
-  fi
-
-
-  gem list | grep deep_merge >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install deep_merge
-  fi
-
-  gem list | grep multipart-post >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install multipart-post -v 2.2.0
-  fi
-
-  gem list | grep r10k >/dev/null 2>&1
-
-  if [ "$?" -ne 0 ];
-  then
-    gem install r10k -v 3.0.0
-  fi
-
   /opt/puppetlabs/puppet/bin/gem list | grep r10k >/dev/null 2>&1
 
   if [ "$?" -ne 0 ];
   then
-    /opt/puppetlabs/puppet/bin/gem install jwt -v 1.5.6
-    /opt/puppetlabs/puppet/bin/gem install r10k -v 3.0.0
+
+    /opt/puppetlabs/puppet/bin/gem install multipart-post -v 2.1.1
+    /opt/puppetlabs/puppet/bin/gem install cri -v 2.15.10
+    /opt/puppetlabs/puppet/bin/gem install deep_merge
+    /opt/puppetlabs/puppet/bin/gem install semantic_puppet -v 1.0.4
+    /opt/puppetlabs/puppet/bin/gem install fast_gettext -v 1.1.2
+    /opt/puppetlabs/puppet/bin/gem install multipart-post -v 2.1.1
+    /opt/puppetlabs/puppet/bin/gem install jwt -v 2.2.3
+    /opt/puppetlabs/puppet/bin/gem install r10k -v 3.12.1
   fi
 
 }
@@ -233,7 +211,7 @@ if [ ! -d "/opt/puppet-masterless/.git" ];
 then
   cd "/opt"
   rm -fr puppet-masterless
-  git clone https://github.com/jordiprats/puppet-masterless
+  git clone https://github.com/NTTCom-MS/bash-puppetmasterless puppet-masterless
 else
   cd "/opt/puppet-masterless"
   git pull origin master
